@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
-from PyQt5.QtCore import QTime, QDate
+from PyQt5.QtCore import QTime, QDate, QSize
 from PyQt5 import uic
 
 database = QSqlDatabase.addDatabase("QSQLITE")
@@ -14,27 +14,28 @@ if not database.open():
 
 # 일정 데이터 테이블 생성
 query = QSqlQuery()
-query.exec_("CREATE TABLE IF NOT EXISTS schedules (date TEXT PRIMARY KEY, text TEXT)")
+query.exec_(
+    "CREATE TABLE IF NOT EXISTS schedules (date TEXT PRIMARY KEY, text TEXT)")
 
 # UI 파일 연결 코드
 UI_class = uic.loadUiType("main.ui")[0]
 UI_class2 = uic.loadUiType("edit.ui")[0]  # 다른 UI 파일 연결 코드
+
 
 class MyWindow(QMainWindow, UI_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.updateDateTime()
-
         self.btn1.clicked.connect(self.openOtherPage)
-
+        self.setFixedSize(QSize(1080, 1920))
         # 1초마다 updateDateTime 함수 호출
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateDateTime)
         self.timer.start(1000)
 
         self.showScheduleDataInTextBox(self.textBrowser_3)
-        
+
     def showScheduleDataInTextBox(self, text_browser):
         # 데이터베이스에서 저장된 일정 데이터를 가져와서 text_browser에 표시
         query = QSqlQuery()
@@ -45,7 +46,7 @@ class MyWindow(QMainWindow, UI_class):
             text = query.value(1).toString()
             schedule_text += f"{date}: {text}\n"
         text_browser.setText(schedule_text)
-        
+
     def updateDateTime(self):
         current_time = QTime.currentTime().toString("hh:mm:ss")
         current_date = QDate.currentDate().toString("yyyy년 MM월 dd일")
@@ -56,19 +57,6 @@ class MyWindow(QMainWindow, UI_class):
         li.unchecked::marker {{ content: "\2610"; }}
         li.checked::marker {{ content: "\2612"; }}
         </style></head><body style=" font-family:'.AppleSystemUIFont'; font-size:30pt; font-weight:400; font-style:normal;">
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:45pt; font-weight:700; color:#ffffff;">현재 시간: </span><span style=" font-size:45pt; font-weight:700; color:#7bb36d;">{current_time}</span></p>
         <p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:45pt; font-weight:700; color:#ffffff;"> 날짜: </span><span style=" font-size:45pt; font-weight:700; color:#7bb36d;">{current_date}</span></p></body></html>''')
 
@@ -122,14 +110,16 @@ class OtherPage(QWidget, UI_class2):
 
         if dialog.exec_() == QDialog.Accepted:
             text = dialog.textEdit.toPlainText()
-            self.textBrowser.append(f'{selected_date.toString("yyyy년 MM월 dd일")}: {text}')
-            self.schedule_data[selected_date.toString("yyyy-MM-dd")] = text  # 일정 데이터 저장
+            self.textBrowser.append(
+                f'{selected_date.toString("yyyy년 MM월 dd일")}: {text}')
+            self.schedule_data[selected_date.toString(
+                "yyyy-MM-dd")] = text  # 일정 데이터 저장
 
     def loadScheduleData(self):
         # 데이터베이스에서 저장된 일정 데이터를 불러옴
         query = QSqlQuery()
         query.exec_("SELECT date, text FROM schedules")
-        
+
         while query.next():
             date = query.value(0).toString()
             text = query.value(1).toString()
@@ -152,7 +142,8 @@ class OtherPage(QWidget, UI_class2):
         query = QSqlQuery()
         query.exec_("DELETE FROM schedules")  # 기존의 일정 데이터 삭제
         for date, text in self.schedule_data.items():
-            query.exec_(f"INSERT INTO schedules (date, text) VALUES ('{date}', '{text}')")
+            query.exec_(
+                f"INSERT INTO schedules (date, text) VALUES ('{date}', '{text}')")
 
         event.accept()
 
@@ -164,7 +155,8 @@ class CustomInputDialog(QDialog):
         self.layout = QVBoxLayout()
         self.textEdit = QTextEdit()
         self.layout.addWidget(self.textEdit)
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttonBox = QDialogButtonBox(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.layout.addWidget(self.buttonBox)
@@ -176,7 +168,6 @@ if __name__ == "__main__":
     window = MyWindow()
     window.show()
     sys.exit(app.exec_())
-
 
 
 # import sys
@@ -215,7 +206,7 @@ if __name__ == "__main__":
 #         self.timer.start(1000)
 
 #         self.showScheduleDataInTextBox(self.textBrowser_3)
-        
+
 #     def showScheduleDataInTextBox(self, text_browser):
 #         # 데이터베이스에서 저장된 일정 데이터를 가져와서 text_browser에 표시
 #         query = QSqlQuery()
@@ -226,7 +217,7 @@ if __name__ == "__main__":
 #             text = query.value(1).toString()
 #             schedule_text += f"{date}: {text}\n"
 #         text_browser.setText(schedule_text)
-        
+
 #     def updateDateTime(self):
 #         current_time = QTime.currentTime().toString("hh:mm:ss")
 #         current_date = QDate.currentDate().toString("yyyy년 MM월 dd일")
@@ -299,7 +290,7 @@ if __name__ == "__main__":
 #         # 데이터베이스에서 저장된 일정 데이터를 불러옴
 #         query = QSqlQuery()
 #         query.exec_("SELECT date, text FROM schedules")
-        
+
 #         while query.next():
 #             date = query.value(0).toString()
 #             text = query.value(1).toString()
@@ -335,30 +326,30 @@ if __name__ == "__main__":
 # class CustomInputDialog(QInputDialog):
 #     def __init__(self, parent=None):
 #         super().__init__(parent)
-        
+
 #         # 다이얼로그 속성 설정
 #         self.setStyleSheet("background-color: lightblue;")
 #         self.resize(400, 150)
-        
+
 #         # 텍스트 입력 위젯 스타일 설정
 #         self.setInputMode(QInputDialog.TextInput)
 #         self.setTextEchoMode(QLineEdit.Normal)
-        
+
 #         # 레이아웃 생성
 #         layout = QVBoxLayout()
-        
+
 #         # 다이얼로그에 추가할 위젯 설정
 #         self.textEdit = QLineEdit(self)
 #         layout.addWidget(self.textEdit)
-        
+
 #         # 레이아웃 설정
 #         self.setLayout(layout)
-    
+
 
 # if __name__ == "__main__":
 #     app = QApplication(sys.argv)
 #     window = MyWindow()
 #     window.show()
 #     sys.exit(app.exec_())
-    
+
 # database.close()
