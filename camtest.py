@@ -3,7 +3,8 @@ from PyQt5.QtCore import QTimer, QPoint
 from PyQt5.QtWidgets import *
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 from PyQt5.QtCore import QTime, QDate, QSize
-from PyQt5 import uic
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QTextEdit
+from PyQt5 import QtWidgets, uic, QtCore
 import cv2
 import mediapipe as mp
 
@@ -24,6 +25,7 @@ query.exec_(
 # UI 파일 연결 코드
 UI_class = uic.loadUiType("main.ui")[0]
 UI_class2 = uic.loadUiType("edit.ui")[0]  # 다른 UI 파일 연결 코드
+UI_class3 = uic.loadUiType("editPOP.ui")[0]
 
 class MyWindow(QMainWindow, UI_class):
     def __init__(self):
@@ -44,18 +46,18 @@ class MyWindow(QMainWindow, UI_class):
         self.timer.timeout.connect(self.updateDateTime)
         self.timer.start(1000)
 
-        self.showScheduleDataInTextBox(self.textBrowser_3)
+    #     self.showScheduleDataInTextBox(self.textBrowser_3)
 
-    def showScheduleDataInTextBox(self, text_browser):
-        # 데이터베이스에서 저장된 일정 데이터를 가져와서 text_browser에 표시
-        query = QSqlQuery()
-        query.exec_("SELECT date, text FROM schedules")
-        schedule_text = ""
-        while query.next():
-            date = query.value(0).toString()
-            text = query.value(1).toString()
-            schedule_text += f"{date}: {text}\n"
-        text_browser.setText(schedule_text)
+    # def showScheduleDataInTextBox(self, text_browser):
+    #     # 데이터베이스에서 저장된 일정 데이터를 가져와서 text_browser에 표시
+    #     query = QSqlQuery()
+    #     query.exec_("SELECT date, text FROM schedules")
+    #     schedule_text = ""
+    #     while query.next():
+    #         date = query.value(0).toString()
+    #         text = query.value(1).toString()
+    #         schedule_text += f"{date}: {text}\n"
+    #     text_browser.setText(schedule_text)
 
     def updateDateTime(self):
         current_time = QTime.currentTime().toString("hh:mm:ss")
@@ -110,16 +112,6 @@ class MyWindow(QMainWindow, UI_class):
                 calendar_widget.move(new_pos)  # 위젯 위치 이동
 
 
-
-                # distance_nose_to_line 텍스트로 표시
-                other_page.textBrowser.setText(f"distance_nose_to_line: {distance_nose_to_line}")
-
-                # current_pos = OtherPage.calendarWidget.pos()  # 현재 위치 가져오기
-                # new_pos = QPoint(current_pos.x(), current_pos.y() - int(distance_nose_to_line))  # 새로운 위치 계산
-                # OtherPage.calendarWidget.move(new_pos)  # 위젯 위치 이동
-                # OtherPage.textBrowser_2.setText(OtherPage.distance_nose_to_line)
-
-
 class OtherPage(QWidget, UI_class2):
     def __init__(self):
         super().__init__()
@@ -134,7 +126,7 @@ class OtherPage(QWidget, UI_class2):
         self.restoreScheduleData()
 
         # 데이터베이스에서 일정 데이터 불러오기
-        self.loadScheduleData()  # 수정된 부분
+        self.loadScheduleData()
 
         self.textBrowser_2.setHtml('''
         <html>
@@ -158,15 +150,23 @@ class OtherPage(QWidget, UI_class2):
 
     def showSelectedDate(self):
         selected_date = self.calendarWidget.selectedDate()
-        dialog = CustomInputDialog(self)
+        dialog = EditPOPDialog(selected_date)
         dialog.setWindowTitle(selected_date.toString("yyyy년 MM월 dd일 일정 추가하기"))
 
         if dialog.exec_() == QDialog.Accepted:
             text = dialog.textEdit.toPlainText()
-            self.textBrowser.append(
-                f'{selected_date.toString("yyyy년 MM월 dd일")}: {text}')
-            self.schedule_data[selected_date.toString(
-                "yyyy-MM-dd")] = text  # 일정 데이터 저장
+            self.textBrowser.append(f'{selected_date.toString("yyyy년 MM월 dd일")}: {text}')
+            self.schedule_data[selected_date.toString("yyyy-MM-dd")] = text  # 일정 데이터 저장
+            
+            current_date = QtCore.QDate.currentDate()
+
+            curDate = current_date.toString("yyyy년 MM월 dd일")
+            selDate = selected_date.toString("yyyy년 MM월 dd일")
+            main_window = self.parent()
+            if curDate == selDate:
+                main_window.textBrowser_4.setStyleSheet("color: white;")
+                main_window.textBrowser_4.setText(f'{text}')
+
 
     def loadScheduleData(self):
         # 데이터베이스에서 저장된 일정 데이터를 불러옴
@@ -201,27 +201,56 @@ class OtherPage(QWidget, UI_class2):
         event.accept()
 
 
-class CustomInputDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("일정 추가")
-        self.layout = QVBoxLayout()
-        self.textEdit = QTextEdit()
-        self.layout.addWidget(self.textEdit)
-        self.buttonBox = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
-        self.layout.addWidget(self.buttonBox)
-        self.setLayout(self.layout)
+class EditPOPDialog(QDialog, UI_class3):
+    def __init__(self, selected_date):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle(selected_date.toString("yyyy년 MM월 dd일 일정 추가하기"))
+        self.accepted_text = None
+        self.textEdit = self.findChild(QTextEdit, "textEdit")  # textEdit 위젯 찾기
 
+        self.button1.clicked.connect(lambda: self.buttonClicked(self.button1.text()))
+        self.button2.clicked.connect(lambda: self.buttonClicked(self.button2.text()))
+        self.button3.clicked.connect(lambda: self.buttonClicked(self.button3.text()))
+        self.button4.clicked.connect(lambda: self.buttonClicked(self.button4.text()))
+        self.button5.clicked.connect(lambda: self.buttonClicked(self.button5.text()))
+        self.button6.clicked.connect(lambda: self.buttonClicked(self.button6.text()))
+        self.button7.clicked.connect(lambda: self.buttonClicked(self.button7.text()))
+        self.button8.clicked.connect(lambda: self.buttonClicked(self.button8.text()))
+        self.button9.clicked.connect(lambda: self.buttonClicked(self.button9.text()))
+
+
+    def buttonClicked(self, text):
+        self.textEdit.setPlainText(text)  # 버튼의 텍스트를 textEdit에 입력
+        self.accepted_text = text
+        self.accept()
+
+    def accept(self):
+        super().accept()
+
+    def getAcceptedText(self):
+        return self.accepted_text
+    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MyWindow()
-    window.show()
+    main_window = MyWindow()
+    main_window.show()
     sys.exit(app.exec_())
 
+# class CustomInputDialog(QDialog):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
+#         self.setWindowTitle("일정 추가")
+#         self.layout = QVBoxLayout()
+#         self.textEdit = QTextEdit()
+#         self.layout.addWidget(self.textEdit)
+#         self.buttonBox = QDialogButtonBox(
+#             QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+#         self.buttonBox.accepted.connect(self.accept)
+#         self.buttonBox.rejected.connect(self.reject)
+#         self.layout.addWidget(self.buttonBox)
+#         self.setLayout(self.layout)
 
 # import cv2
 # import mediapipe as mp
