@@ -30,9 +30,9 @@ class MyWindow(QMainWindow, UI_class):
         super().__init__()
         self.setupUi(self)
         self.updateDateTime()
-        self.btn1.clicked.connect(self.openOtherPage)
+        self.startEditBtn.clicked.connect(self.openOtherPage)
         self.setFixedSize(QSize(1080, 1920))
-        self.resizebtn.clicked.connect(self.resizeTextBrowser)
+        self.startEditBtn.clicked.connect(self.resizeTextBrowser)
         # Initialize the video capture
         self.cap = cv2.VideoCapture(0)
 
@@ -99,11 +99,25 @@ class MyWindow(QMainWindow, UI_class):
                     bottom_right[0] - top_right[0])
                                         * nose_tip.y + bottom_right[0] * top_right[1] - bottom_right[1] * top_right[
                                             0]) / distance_right_points
+                
                 distance_nose_to_line = (distance_nose_to_line - 639) * 100
+                distance_nose_to_line = ((distance_nose_to_line + 42) * 16)
+                other_page = self.centralWidget()
+                calendar_widget = other_page.calendarWidget
 
-                current_pos = self.textBrowser.pos()  # 현재 위치 가져오기
-                new_pos = QPoint(current_pos.x(), current_pos.y() + int(distance_nose_to_line))  # 새로운 위치 계산
-                self.textBrowser.move(new_pos)  # 위젯 위치 이동
+                current_pos = calendar_widget.pos()  # 현재 위치 가져오기
+                new_pos = QPoint(current_pos.x(), current_pos.y() - int(distance_nose_to_line))  # 새로운 위치 계산
+                calendar_widget.move(new_pos)  # 위젯 위치 이동
+
+
+
+                # distance_nose_to_line 텍스트로 표시
+                other_page.textBrowser.setText(f"distance_nose_to_line: {distance_nose_to_line}")
+
+                # current_pos = OtherPage.calendarWidget.pos()  # 현재 위치 가져오기
+                # new_pos = QPoint(current_pos.x(), current_pos.y() - int(distance_nose_to_line))  # 새로운 위치 계산
+                # OtherPage.calendarWidget.move(new_pos)  # 위젯 위치 이동
+                # OtherPage.textBrowser_2.setText(OtherPage.distance_nose_to_line)
 
 
 class OtherPage(QWidget, UI_class2):

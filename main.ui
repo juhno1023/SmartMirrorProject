@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1091</width>
-    <height>1840</height>
+    <width>1080</width>
+    <height>1920</height>
    </rect>
   </property>
   <property name="cursor">
@@ -31,7 +31,7 @@
      <x>29</x>
      <y>29</y>
      <width>1041</width>
-     <height>1791</height>
+     <height>1861</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -79,35 +79,53 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn1">
+   <widget class="QPushButton" name="startEditBtn">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>1480</y>
+      <x>20</x>
+      <y>1600</y>
       <width>311</width>
       <height>121</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Nanum Gothic</family>
+      <pointsize>24</pointsize>
+      <weight>99</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 255, 255);
-font: 700 18pt &quot;Nanum Gothic&quot;;</string>
+font: 1000 24pt &quot;Nanum Gothic&quot;;</string>
     </property>
     <property name="text">
-     <string>일정 관리 하기</string>
+     <string>일정 관리 시작 하기</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>1620</y>
+      <x>20</x>
+      <y>1750</y>
       <width>311</width>
       <height>81</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Nanum Gothic</family>
+      <pointsize>24</pointsize>
+      <weight>99</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 255, 255);
-font: 700 18pt &quot;Nanum Gothic&quot;;</string>
+font: 1000 24pt &quot;Nanum Gothic&quot;;</string>
     </property>
     <property name="text">
      <string>도움말</string>
@@ -116,30 +134,14 @@ font: 700 18pt &quot;Nanum Gothic&quot;;</string>
    <widget class="QCalendarWidget" name="calendarWidget">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>1330</y>
-      <width>591</width>
-      <height>431</height>
+      <x>470</x>
+      <y>1440</y>
+      <width>551</width>
+      <height>401</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="resizebtn">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>860</y>
-      <width>291</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>일정 관리 시작하기</string>
     </property>
    </widget>
   </widget>
