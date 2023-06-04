@@ -43,16 +43,16 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>10</y>
+      <x>100</x>
+      <y>350</y>
       <width>831</width>
-      <height>131</height>
+      <height>250</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>20</pointsize>
+      <pointsize>24</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -72,7 +72,8 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>20</pointsize>
+      <family>맑은 고딕</family>
+      <pointsize>32</pointsize>
       <weight>75</weight>
       <italic>false</italic>
       <bold>true</bold>
@@ -80,7 +81,13 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(174, 202, 181);
-</string>
+selection-background-color: rgb(146, 199, 255);</string>
+    </property>
+    <property name="gridVisible">
+     <bool>true</bool>
+    </property>
+    <property name="verticalHeaderFormat">
+     <enum>QCalendarWidget::NoVerticalHeader</enum>
     </property>
     <property name="navigationBarVisible">
      <bool>true</bool>
@@ -92,18 +99,37 @@
    <widget class="QPushButton" name="backhome">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>1020</y>
+      <x>760</x>
+      <y>1650</y>
       <width>271</width>
       <height>81</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>맑은 고딕</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(146, 255, 4);
-font: 75 18pt &quot;맑은 고딕&quot;;</string>
+     <string notr="true">background-color: rgb(255, 199, 87)</string>
     </property>
     <property name="text">
      <string>일정 추가 마무리 하기</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="autoDefault">
+     <bool>true</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QTextBrowser" name="textBrowser_2">

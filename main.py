@@ -40,7 +40,7 @@ while True:
 
             # Draw the nose tip
             cv2.circle(frame, (int(nose_tip.x * frame.shape[1]), int(nose_tip.y * frame.shape[0])), 5, (0, 255, 0), -1)
-
+            distance_nose_to_line = (distance_nose_to_line - 639) * 100
             # Display the distance on the frame
             cv2.putText(frame, f"Distance: {distance_nose_to_line:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 

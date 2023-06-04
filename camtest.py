@@ -111,7 +111,13 @@ class MyWindow(QMainWindow, UI_class):
                 new_pos = QPoint(current_pos.x(), current_pos.y() - int(distance_nose_to_line))  # 새로운 위치 계산
                 calendar_widget.move(new_pos)  # 위젯 위치 이동
 
-
+                textBrowser = other_page.textBrowser
+                if distance_nose_to_line >= 1300:
+                    current_pos_2 = textBrowser.pos()
+                    new_pos_2 = QPoint(current_pos_2.x(), current_pos_2.y() + 1000)  # 새로운 위치 계산
+                    textBrowser.move(new_pos_2)  # 위젯 위치 이동
+    
+                
 class OtherPage(QWidget, UI_class2):
     def __init__(self):
         super().__init__()
