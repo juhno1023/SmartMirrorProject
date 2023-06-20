@@ -206,7 +206,6 @@ class OtherPage(QWidget, UI_class2):
 
         event.accept()
 
-
 class EditPOPDialog(QDialog, UI_class3):
     def __init__(self, selected_date):
         super().__init__()
