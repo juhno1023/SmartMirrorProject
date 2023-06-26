@@ -22,7 +22,7 @@
 ---
 
 ### 3. 결과물 :
-**해당 시스템을 적용할 일정 관리 프로그램:**
+**해당 시스템을 적용할 일정 관리 프로그램 디자인:**
 <br/>
 <img width="180" alt="image" src="https://github.com/juhno1023/SmartMirrorProject/assets/114224596/2b78758d-5a9c-4c11-af16-62cbb9d6186b">
 <img width="180" alt="image" src="https://github.com/juhno1023/SmartMirrorProject/assets/114224596/b5b2b7ba-1db0-46fe-b724-1d9bfa2f019e">
@@ -37,7 +37,7 @@
 
 ---
 
-### 4. 사용 방법:
+### 4. 프로그램 사용 방법:
 1. 파일을 다운로드 받은 후, 파일을 실행하기 전, 이미지 폴더에 있는 이미지 파일들을 "SmartMirrorHeightSystem.py"파일과 동일한 디렉토리에 같이 있도록 파일들을 꺼내준다.
 2. Visual Studio Code에서 "SmartMirrorHeightSystem.py" 파일을 실행한다. 이때 스마트 미러 환경에서는 카메락 설치되어 있어야 한다.
 3. 프로그램이 실행 되면, "일정 관리 시작하기" 버튼을 눌렀을 때, 화면 조정이 잘 되는 것을 확인 할 수 있다.
